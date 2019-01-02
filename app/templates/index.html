@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+	<h1>Hello, {{ current_user.username }}</h1>
+	{% if form %}
+	<form action="" method="post">
+		{{ form.hidden_tag() }}
+		<p>
+			{{ form.question.label }}<br>
+			{{ form.question(cols=32, rows=4) }}<br>
+			{% for error in form.question.errors %}
+			<span style="color: red;">[{{ error }}]</span>
+			{% endfor %}
+		</p>
+		<p>{{ form.submit() }}</p>
+	</form>
+	{% endif %}
+	{% for question in questions %}
+		{% include '_question.html' %}
+	{% endfor %}
+	<nav aria-label="...">
+		<ul class="pager">
+			<li class="previous{% if not prev_url %} disabled{% endif %}">
+				<a href="{{ prev_url or '#' }}">
+					<span aria-hidden="true">&larr;</span> Newer questions
+				</a>
+			</li>
+			<li class="next{% if not next_url %} disabled{% endif %}">
+				<a href="{{ next_url or '#' }}">
+					Older questions <span aria-hidden="true">&rarr;</span>
+				</a>
+			</li>
+		</ul>
+	</nav>   	
+{% endblock %}
